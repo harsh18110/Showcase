@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Showcase</title>
+    <style>
+        /* Add CSS styles here to format your webpage */
+    </style>
+</head>
+<body>
+    <h1>Animation Showcase</h1>
+
+    <div id="animationContainer">
+        <!-- Videos will be added here dynamically -->
+    </div>
+
+    <script>
+        // Get a reference to the "animationContainer" div
+        const animationContainer = document.getElementById("animationContainer");
+
+        // List of animation file names (replace with your actual file names)
+        const animationFiles = [
+            "animation1.mp4",
+            "animation2.mp4",
+            "animation3.mp4",
+            // Add more file names as needed
+        ];
+
+        // Loop through the list of animation files and create video elements
+        animationFiles.forEach((fileName, index) => {
+            const videoElement = document.createElement("video");
+            videoElement.width = 320;
+            videoElement.height = 240;
+            videoElement.controls = true;
+
+            const sourceElement = document.createElement("source");
+            sourceElement.src = `Animations/${fileName}`;
+            sourceElement.type = "video/mp4";
+
+            // Add the source element to the video element
+            videoElement.appendChild(sourceElement);
+
+            const headingElement = document.createElement("h2");
+            headingElement.textContent = `Animation ${index + 1}`;
+
+            // Add the video and heading elements to the container
+            animationContainer.appendChild(headingElement);
+            animationContainer.appendChild(videoElement);
+        });
+    </script>
+</body>
+</html>
