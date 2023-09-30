@@ -27,7 +27,11 @@
             const videoElement = document.createElement("video");
             videoElement.width = 320;
             videoElement.height = 240;
-            videoElement.controls = true;
+            videoElement.controls = false;
+            
+            videoElement.autoplay = true;
+            videoElement.loop = true;
+            videoElement.muted = true;
 
             const sourceElement = document.createElement("source");
             sourceElement.src = `./${i}.mp4`; // Relative path from the HTML file
