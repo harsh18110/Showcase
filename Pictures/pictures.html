@@ -41,7 +41,7 @@
         }
 
         // Fetch the list of picture files from the "Pictures" folder
-        fetch("./")
+        fetch("Pictures/")
             .then(response => response.text())
             .then(data => {
                 // Parse the HTML response to extract links to picture files
