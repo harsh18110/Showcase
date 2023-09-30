@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picture Showcase</title>
+    <style>
+        /* Add CSS styles here to format your webpage */
+        /* You can add styles for images if needed */
+
+        /* Set a maximum width and height for images */
+        img {
+            max-width: 320px; /* Adjust the maximum width as needed */
+            max-height: 240px; /* Adjust the maximum height as needed */
+            width: auto; /* Automatically adjust width while preserving aspect ratio */
+            height: auto; /* Automatically adjust height while preserving aspect ratio */
+            cursor: pointer; /* Add pointer cursor to indicate interactivity */
+        }
+    </style>
+</head>
+<body>
+    <h1>Picture Showcase</h1>
+
+    <div id="pictureContainer">
+        <!-- Pictures will be added here dynamically -->
+    </div>
+
+    <script>
+        // Get a reference to the "pictureContainer" div
+        const pictureContainer = document.getElementById("pictureContainer");
+
+        // Function to toggle full-screen mode
+        function toggleFullScreen(element) {
+            if (!document.fullscreenElement) {
+                element.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Fetch the list of picture files from the "Pictures" folder
+        fetch("./")
+            .then(response => response.text())
+            .then(data => {
+                // Parse the HTML response to extract links to picture files
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, "text/html");
+                const links = Array.from(doc.querySelectorAll("a"));
+
+                // Filter and process image files
+                const imageFiles = links
+                    .filter(link => link.href.endsWith(".jpg") || link.href.endsWith(".png") || link.href.endsWith(".jpeg") || link.href.endsWith(".gif"))
+                    .map((link, index) => {
+                        const imageElement = document.createElement("img");
+                        imageElement.src = link.href; // Full URL to the image
+                        imageElement.alt = `Picture ${index + 1}`;
+                        imageElement.classList.add("scaled-image");
+
+                        // Add a click event listener to toggle full-screen mode
+                        imageElement.addEventListener("click", () => {
+                            toggleFullScreen(imageElement);
+                        });
+
+                        const headingElement = document.createElement("h2");
+                        headingElement.textContent = `Picture ${index + 1}`;
+
+                        // Add the image and heading elements to the container
+                        pictureContainer.appendChild(headingElement);
+                        pictureContainer.appendChild(imageElement);
+                    });
+            })
+            .catch(error => {
+                console.error("Error fetching picture files:", error);
+            });
+    </script>
+</body>
+</html>
