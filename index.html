@@ -3,67 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animation Showcase</title>
+    <title>Render Options</title>
+    <style>
+        /* Add CSS styles here to format your webpage */
+    </style>
 </head>
 <body>
-    <h1>Animation Showcase</h1>
-
-    <div id="animationContainer">
-        <!-- Videos will be added here dynamically -->
-    </div>
-
-    <script>
-        // Get a reference to the "animationContainer" div
-        const animationContainer = document.getElementById("animationContainer");
-
-        // Fetch the list of animation files from the "Animations" folder
-        fetch("harsh18110/Showcase/Animations/")
-            .then(response => response.text())
-            .then(data => {
-                // Parse the HTML response to extract links to animation files
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, "text/html");
-                const links = Array.from(doc.querySelectorAll("a"));
-
-                // Filter and process video files
-                const videoFiles = links
-                    .filter(link => link.href.endsWith(".mp4") || link.href.endsWith(".mov"))
-                    .map((link, index) => {
-                        const videoElement = document.createElement("video");
-                        videoElement.width = 320;
-                        videoElement.height = 240;
-                        
-                        // Add the 'autoplay' and 'loop' attributes
-                        videoElement.muted = true;
-                        videoElement.autoplay = true;
-                        videoElement.loop = true;
-                        
-                        // Set the source element
-                        const sourceElement = document.createElement("source");
-                        sourceElement.src = link.href; // Full URL to the video
-                        sourceElement.type = link.type;
-                        videoElement.appendChild(sourceElement);
-
-                        // Add event listeners to show controls on hover
-                        videoElement.addEventListener("mouseenter", () => {
-                            videoElement.controls = true;
-                        });
-
-                        videoElement.addEventListener("mouseleave", () => {
-                            videoElement.controls = false;
-                        });
-
-                        const headingElement = document.createElement("h2");
-                        headingElement.textContent = `Animation ${index + 1}`;
-
-                        // Add the video and heading elements to the container
-                        animationContainer.appendChild(headingElement);
-                        animationContainer.appendChild(videoElement);
-                    });
-            })
-            .catch(error => {
-                console.error("Error fetching animation files:", error);
-            });
-    </script>
+    <ul>
+        <li><a href="Animations/animations.html">View Animation Renders</a></li>
+        <li><a href="Pictures/pictures.html">View Picture Renders</a></li>
+    </ul>
 </body>
 </html>
