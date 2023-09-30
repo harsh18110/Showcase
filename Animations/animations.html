@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animations</title>
+    <style>
+        body {
+            background-color: rgb(0, 0, 0);
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            font-size: 35px;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .video-container {
+            flex: 0 1 calc(33.33% - 20px);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        video {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .video-container:hover {
+            transform: scale(1.06);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Animations</h1>
+
+    <div id="videoContainer" class="video-row">
+        <!-- Videos will be added here dynamically -->
+    </div>
+
+    <script>
+        const videoContainer = document.getElementById("videoContainer");
+        const numVideos = 12;
+
+        function toggleFullScreen(videoElement) {
+            if (!document.fullscreenElement) {
+                videoElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        for (let i = 1; i <= numVideos; i++) {
+            const videoElement = document.createElement("video");
+            videoElement.src = `./${i}.mp4`;
+            videoElement.autoplay = true;
+            videoElement.loop = true;
+            videoElement.muted = true;
+            videoElement.addEventListener("click", () => {
+                toggleFullScreen(videoElement);
+            });
+
+            const videoContainerDiv = document.createElement("div");
+            videoContainerDiv.className = "video-container";
+            videoContainerDiv.appendChild(videoElement);
+
+            videoContainer.appendChild(videoContainerDiv);
+        }
+    </script>
+</body>
+</html>
