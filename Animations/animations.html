@@ -19,34 +19,44 @@
         // Get a reference to the "animationContainer" div
         const animationContainer = document.getElementById("animationContainer");
 
-        // Number of animations
-        const numAnimations = 13; // Adjust this number as needed
+        // Fetch the list of animation files from the current directory
+        fetch("./")
+            .then(response => response.text())
+            .then(data => {
+                // Parse the HTML response to extract links to video files
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, "text/html");
+                const links = Array.from(doc.querySelectorAll("a"));
 
-        // Loop through the animations and create video elements
-        for (let i = 1; i <= numAnimations; i++) {
-            const videoElement = document.createElement("video");
-            videoElement.width = 320;
-            videoElement.height = 240;
-            videoElement.controls = false;
-            
-            videoElement.autoplay = true;
-            videoElement.loop = true;
-            videoElement.muted = true;
+                // Filter and process video files
+                const videoFiles = links
+                    .filter(link => link.href.endsWith(".mp4") || link.href.endsWith(".mov"))
+                    .map((link, index) => {
+                        const videoElement = document.createElement("video");
+                        videoElement.width = 320;
+                        videoElement.height = 240;
+                        videoElement.controls = false;
 
-            const sourceElement = document.createElement("source");
-            sourceElement.src = `./${i}.mp4`; // Relative path from the HTML file
-            sourceElement.type = "video/mp4";
+                        videoElement.autoplay = true;
+                        videoElement.loop = true;
+                        videoElement.muted = true;
 
-            // Add the source element to the video element
-            videoElement.appendChild(sourceElement);
+                        const sourceElement = document.createElement("source");
+                        sourceElement.src = link.href; // Full URL to the video
+                        sourceElement.type = link.type;
+                        videoElement.appendChild(sourceElement);
 
-            const headingElement = document.createElement("h2");
-            headingElement.textContent = `Animation ${i}`;
+                        const headingElement = document.createElement("h2");
+                        headingElement.textContent = `Animation ${index + 1}`;
 
-            // Add the video and heading elements to the container
-            animationContainer.appendChild(headingElement);
-            animationContainer.appendChild(videoElement);
-        }
+                        // Add the video and heading elements to the container
+                        animationContainer.appendChild(headingElement);
+                        animationContainer.appendChild(videoElement);
+                    });
+            })
+            .catch(error => {
+                console.error("Error fetching animation files:", error);
+            });
     </script>
 </body>
 </html>
