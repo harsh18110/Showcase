@@ -40,8 +40,20 @@
         }
 
         .link-image {
-            max-width: 720px;
-            max-height: 405px;
+            max-width: 100%; 
+            height: auto; 
+            max-height: 405px; 
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .link-container {
+                flex-direction: column;
+            }
+
+            .link-item {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -49,7 +61,6 @@
     <h1>Showcase</h1>
 
     <div class="link-container">
-
         <div class="link-item" onclick="openAnimations()">
             <img class="link-image" src="animations.png" alt="Animations">
             <div class="link-title">ANIMATIONS</div>
@@ -61,11 +72,9 @@
     </div>
 
     <script>
-
         function openAnimations() {
             window.location.href = "Animations/animations.html";
         }
-
 
         function openPictures() {
             window.location.href = "Pictures/pictures.html";
