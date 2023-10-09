@@ -67,7 +67,7 @@
             }
         }
 
-        for (let i = 1; i <= numVideos; i++) {
+        for (let i = -1; i <= numVideos; i++) {
             const videoElement = document.createElement("video");
             videoElement.src = `./${i}.mp4`;
             videoElement.autoplay = true;
